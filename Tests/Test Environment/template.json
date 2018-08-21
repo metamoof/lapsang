@@ -215,7 +215,11 @@
             "apiVersion": "2017-08-01",
             "location": "[parameters('location')]",
             "properties": {
-                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
+                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]",
+                "dnsSettings": {
+                    "domainNameLabel": "lapsang-test",
+                    "fqdn": "lapsang-test.westeurope.cloudapp.azure.com"
+                }
             },
             "sku": {
                 "name": "[parameters('publicIpAddressSku')]"
