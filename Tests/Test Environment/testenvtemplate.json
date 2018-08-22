@@ -4,7 +4,7 @@
   "parameters": {
     "newVMName": {
       "type": "string",
-      "defaultValue": "lapsang-test"
+      "defaultValue": "lapsang-t-31"
     },
     "labName": {
       "type": "string",
@@ -16,27 +16,10 @@
     },
     "userName": {
       "type": "string",
-      "defaultValue": "lapsangadmin"
+      "defaultValue": "garadford"
     },
     "password": {
-      "type": "securestring",
-      "defaultValue": "[[[lapsang-administrator-pass]]"
-    },
-    "Create_Domain_DomainName": {
-      "type": "string",
-      "defaultValue": "lapsang"
-    },
-    "Create_Domain_DomainFQDN": {
-      "type": "string",
-      "defaultValue": "lapsang.example"
-    },
-    "Create_Domain_SafeModePW": {
-      "type": "securestring",
-      "defaultValue": "[[[lapsang-domain-recovery]]"
-    },
-    "Configure_WinRM_hostName": {
-      "type": "string",
-      "defaultValue": "lapsang-test"
+      "type": "securestring"
     }
   },
   "variables": {
@@ -54,38 +37,21 @@
       "location": "[resourceGroup().location]",
       "properties": {
         "labVirtualNetworkId": "[variables('labVirtualNetworkId')]",
-        "notes": "[smalldisk] Windows Server 2016 Datacenter",
-        "galleryImageReference": {
-          "offer": "WindowsServer",
-          "publisher": "MicrosoftWindowsServer",
-          "sku": "2016-Datacenter-smalldisk",
-          "osType": "Windows",
-          "version": "latest"
-        },
+        "notes": "lapsang-testci",
+        "customImageId": "/subscriptions/3aabf930-c994-463d-acb9-544f84592e96/resourcegroups/lapsang-dtl/providers/microsoft.devtestlab/labs/lapsang-dtl/customimages/lapsang-testci",
         "size": "[parameters('size')]",
         "userName": "[parameters('userName')]",
         "password": "[parameters('password')]",
         "isAuthenticationWithSshKey": false,
         "artifacts": [
           {
-            "artifactId": "[resourceId('Microsoft.DevTestLab/labs/artifactSources/artifacts', parameters('labName'), 'public repo', 'windows-CreateDomain')]",
+            "artifactId": "[resourceId('Microsoft.DevTestLab/labs/artifactSources/artifacts', parameters('labName'), 'public repo', 'windows-winrm')]",
             "parameters": [
               {
-                "name": "DomainName",
-                "value": "[parameters('Create_Domain_DomainName')]"
-              },
-              {
-                "name": "DomainFQDN",
-                "value": "[parameters('Create_Domain_DomainFQDN')]"
-              },
-              {
-                "name": "SafeModePW",
-                "value": "[parameters('Create_Domain_SafeModePW')]"
+                "name": "hostName",
+                "value": "[parameters('newVMName')]"
               }
             ]
-          },
-          {
-            "artifactId": "[resourceId('Microsoft.DevTestLab/labs/artifactSources/artifacts', parameters('labName'), 'public repo', 'windows-vscode')]"
           }
         ],
         "labSubnetName": "[variables('labSubnetName')]",
