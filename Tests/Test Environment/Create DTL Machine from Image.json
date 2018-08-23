@@ -50,7 +50,7 @@
             "parameters": [
               {
                 "name": "hostName",
-                "value": "[parameters('certificateDNSName')]"
+                "value": "[variables('certificateDNSName')]"
               }
             ]
           }
