@@ -27,7 +27,8 @@
     "labVirtualNetworkId": "[resourceId('Microsoft.DevTestLab/labs/virtualnetworks', parameters('labName'), variables('labVirtualNetworkName'))]",
     "labVirtualNetworkName": "[concat('Dtl', parameters('labName'))]",
     "vmId": "[resourceId ('Microsoft.DevTestLab/labs/virtualmachines', parameters('labName'), parameters('newVMName'))]",
-    "vmName": "[concat(parameters('labName'), '/', parameters('newVMName'))]"
+    "vmName": "[concat(parameters('labName'), '/', parameters('newVMName'))]",
+    "certificateDNSName": "[concat('*.',resourceGroup().location,'.cloudapp.azure.com')]"
   },
   "resources": [
     {
@@ -49,7 +50,7 @@
             "parameters": [
               {
                 "name": "hostName",
-                "value": "[parameters('newVMName')]"
+                "value": "[parameters('certificateDNSName')]"
               }
             ]
           }
