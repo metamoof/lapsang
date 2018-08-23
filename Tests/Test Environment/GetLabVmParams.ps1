@@ -10,12 +10,10 @@ $labVmRgName = (Get-AzureRmResource -Id $labVmComputeId).ResourceGroupName
 $labVmName = (Get-AzureRmResource -Id $labVmId).Name
 
 # Get lab VM public IP address
-$labVMIpAddress = (Get-AzureRmPublicIpAddress -ResourceGroupName $labVmRgName
-                   -Name $labVmName).IpAddress
+$labVMIpAddress = (Get-AzureRmPublicIpAddress -ResourceGroupName $labVmRgName -Name $labVmName).IpAddress
 
 # Get lab VM FQDN
-$labVMFqdn = (Get-AzureRmPublicIpAddress -ResourceGroupName $labVmRgName
-              -Name $labVmName).DnsSettings.Fqdn
+$labVMFqdn = (Get-AzureRmPublicIpAddress -ResourceGroupName $labVmRgName -Name $labVmName).DnsSettings.Fqdn
 
 # Set a variable labVmRgName to store the lab VM resource group name
 Write-Host "##vso[task.setvariable variable=labVmRgName;]$labVmRgName"
