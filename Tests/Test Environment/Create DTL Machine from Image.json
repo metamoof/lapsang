@@ -64,6 +64,10 @@
               {
                 "transportProtocol": "tcp",
                 "backendPort": 3389
+              },
+              {
+                "transportProtocol": "tcp",
+                "backendPort": 5986
               }
             ]
           }
