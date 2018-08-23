@@ -55,11 +55,19 @@
           }
         ],
         "labSubnetName": "[variables('labSubnetName')]",
-        "disallowPublicIpAddress": false,
+        "disallowPublicIpAddress": true,
         "storageType": "Premium",
-        "allowClaim": false
-        
-        
+        "allowClaim": false,
+        "networkInterface": {
+          "sharedPublicIpAddressConfiguration": {
+            "inboundNatRules": [
+              {
+                "transportProtocol": "tcp",
+                "backendPort": 3389
+              }
+            ]
+          }
+        }
       }
     }
   ],
