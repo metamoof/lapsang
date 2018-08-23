@@ -29,7 +29,7 @@ while ($scriptActive -eq $True){ #Check if script is running
 
 if (Test-Path $reportingDirectory){ #Test if the reporting directory exists, create it if not, else check if the report itself exists for given date.
 	if (Test-Path $ReportPath){
-		$Computers = Import-CSV $ReportPath #Import the report
+		$Computers = Import-CSV $ReportPath #Import the report 
 		ForEach ($computer in $Computers){
 			if($computer.Responded -eq $False){
 				#Run logic here to check contents of local admin group if machine responds and commit any changes to the DB, skipping machine if it does not respond
