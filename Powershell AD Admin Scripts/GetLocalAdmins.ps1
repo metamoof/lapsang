@@ -33,23 +33,30 @@ if (Test-Path $reportingDirectory){ #Test if the reporting directory exists, cre
 		ForEach ($computer in $Computers){
 			if($computer.Responded -eq $False){
 				#Run logic here to check contents of local admin group if machine responds and commit any changes to the DB, skipping machine if it does not respond
-				
+				try{
+					invoke-command -ComputerName $Computer.ComputerName {$Global:members = net localgroup administrators | where {$_ -AND $_ -notmatch "command completed successfully"} | select -skip 4}
+					$Computer.Admins = $members
+					$Computer.Responded = $True
+				}
+					catch{
+						#Skip PC and move to next object
+					}
 
 			}
 			else{
-				 
-				
+				 #Skip PC and move to next object
 			}
 			
 
 		}
 		#Once completed update changes to report in DB and set script active flag to false to exit while loop
+		$Computers | Export-Csv $ReportPath
 		$scriptActive = $False
 	}
-	else{ #If report does not exist, create report and output to CSV. 
+	elseif (Test-Path $ReportPath -ne $True){ #If report does not exist, create report and output to CSV. 
 	 $Computers = $EmployeePCOUs | ForEach-Object {get-adcomputer -Filter * -Property name -SearchBase $_}
 	 $report = @()
-		ForEach ($Computer in $Computers){$report += New-Object psobject -Property @{"Computer Name"=$($Computer.DN);"Local Admins"=$null;Date=(Get-Date);"Responded" = $False} }
+		ForEach ($Computer in $Computers){$report += New-Object psobject -Property @{"ComputerName"=$($Computer.DN);"Admins"=$null;Date=(Get-Date);"Responded" = $False} }
 		$report | select "Computer Name", "Local Admins", "Date", "Responded" | Export-CSV -path $ReportPath
 	 }
 }
